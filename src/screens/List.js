@@ -16,7 +16,7 @@ import { exercise } from '../constant/data'
 const List = ({ navigation }) => {
 	return (
 		<View style={global.container}>
-			<Header title="Exercise List" noBack={true} />
+			<Header title="Yoga List" noBack={true} />
 			<ScrollView>
 				<View style={styles.exerciseWrapper}>
 					{exercise.map(el => {

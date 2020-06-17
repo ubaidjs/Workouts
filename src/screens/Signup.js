@@ -37,6 +37,12 @@ const Signup = ({ navigation }) => {
 						autoCompleteType="off"
 					/>
 					<TextInput
+						placeholder="Phone Number"
+						style={styles.input}
+						keyboardType="phone-pad"
+					/>
+					<TextInput placeholder="Address" style={styles.input} />
+					<TextInput
 						placeholder="Password"
 						style={styles.input}
 						secureTextEntry={true}
@@ -83,7 +89,6 @@ const styles = StyleSheet.create({
 	},
 	inputWrapper: {
 		padding: 20,
-		marginBottom: 50,
 	},
 	input: {
 		backgroundColor: '#f7f7f7',

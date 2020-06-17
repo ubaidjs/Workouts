@@ -31,9 +31,9 @@ const Login = ({ navigation }) => {
 					{/* <Text style={styles.loginline}>Login to your account</Text> */}
 					<View style={styles.inputWrapper}>
 						<TextInput
-							placeholder="Email"
+							placeholder="Phone Number"
 							style={styles.input}
-							keyboardType="email-address"
+							keyboardType="phone-pad"
 							autoCapitalize="none"
 							autoCompleteType="off"
 						/>

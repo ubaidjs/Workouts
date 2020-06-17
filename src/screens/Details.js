@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
 	videoButton: {
 		backgroundColor: colors.themeColor,
 		paddingHorizontal: 15,
-		paddingVertical: 10,
+		paddingVertical: 8,
 		alignSelf: 'center',
 		flexDirection: 'row',
 		alignItems: 'center',
@@ -81,11 +81,12 @@ const styles = StyleSheet.create({
 	},
 	heading: {
 		fontSize: 18,
-		fontWeight: 'bold',
 		color: colors.lightBlack,
+		fontFamily: 'NotoSans-Bold',
 	},
 	para: {
 		fontSize: 16,
 		marginVertical: 10,
+		fontFamily: 'NotoSans-Regular',
 	},
 })
