@@ -9,6 +9,9 @@ import AsyncStorage from '@react-native-community/async-storage'
 import { AuthContext, authReducer, authState } from '../context/AuthContext'
 import Login from '../screens/Login'
 import Signup from '../screens/Signup'
+import Workouts from '../screens/Workouts'
+import Foods from '../screens/Foods'
+import Calculator from '../screens/Calculator'
 import TabNavigator from '../navigation/TabNavigator'
 
 const Stack = createStackNavigator()
@@ -61,7 +64,12 @@ const AppNavigator = () => {
 							<Stack.Screen name="Signup" component={Signup} />
 						</>
 					) : (
-						<Stack.Screen name="Tabs" component={TabNavigator} />
+						<>
+							<Stack.Screen name="Tabs" component={TabNavigator} />
+							<Stack.Screen name="Workouts" component={Workouts} />
+							<Stack.Screen name="Foods" component={Foods} />
+							<Stack.Screen name="Calculator" component={Calculator} />
+						</>
 					)}
 				</Stack.Navigator>
 			</AuthContext.Provider>

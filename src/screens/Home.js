@@ -10,7 +10,10 @@ import {
 import colors from '../constant/colors'
 import global from '../constant/styles'
 
-const Home = () => {
+const Home = ({ navigation }) => {
+	const navigateToScreen = route => {
+		navigation.navigate(route)
+	}
 	return (
 		<View style={global.container}>
 			<ScrollView>
@@ -19,7 +22,7 @@ const Home = () => {
 					<Text style={styles.name}>Victoria Doe</Text>
 				</View>
 				<View style={styles.main}>
-					<TouchableNativeFeedback>
+					<TouchableNativeFeedback onPress={() => navigateToScreen('Workouts')}>
 						<View style={styles.button}>
 							<Image
 								style={styles.image}
@@ -28,7 +31,8 @@ const Home = () => {
 							<Text style={styles.title}>Workouts</Text>
 						</View>
 					</TouchableNativeFeedback>
-					<TouchableNativeFeedback>
+
+					<TouchableNativeFeedback onPress={() => navigateToScreen('Foods')}>
 						<View style={styles.button}>
 							<Image
 								style={styles.image}
@@ -38,7 +42,8 @@ const Home = () => {
 						</View>
 					</TouchableNativeFeedback>
 
-					<TouchableNativeFeedback>
+					<TouchableNativeFeedback
+						onPress={() => navigateToScreen('Calculator')}>
 						<View style={styles.button}>
 							<Image
 								style={styles.image}
