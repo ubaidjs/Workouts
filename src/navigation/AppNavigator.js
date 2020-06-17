@@ -9,11 +9,13 @@ import AsyncStorage from '@react-native-community/async-storage'
 import { AuthContext, authReducer, authState } from '../context/AuthContext'
 import Login from '../screens/Login'
 import Signup from '../screens/Signup'
-import Workouts from '../screens/Workouts'
+import Yoga from '../screens/Yoga'
 import Foods from '../screens/Foods'
 import Calculator from '../screens/Calculator'
 import TabNavigator from '../navigation/TabNavigator'
 import EditProfile from '../screens/EditProfile'
+import Category from '../screens/Category'
+import Details from '../screens/Details'
 
 const Stack = createStackNavigator()
 
@@ -67,10 +69,12 @@ const AppNavigator = () => {
 					) : (
 						<>
 							<Stack.Screen name="Tabs" component={TabNavigator} />
-							<Stack.Screen name="Workouts" component={Workouts} />
+							<Stack.Screen name="Yoga" component={Yoga} />
 							<Stack.Screen name="Foods" component={Foods} />
 							<Stack.Screen name="Calculator" component={Calculator} />
 							<Stack.Screen name="Edit" component={EditProfile} />
+							<Stack.Screen name="Category" component={Category} />
+							<Stack.Screen name="Details" component={Details} />
 						</>
 					)}
 				</Stack.Navigator>

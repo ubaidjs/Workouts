@@ -3,7 +3,8 @@ const colors = {
 	themeColor: '#ff7675',
 	lightBlack: '#2c3e50',
 	linkBlue: '#0984e3',
-	darkGray: '#7f8c8d',
+	darkGray: '#c9c9c9',
+	lightGray: '#f5f5f5',
 }
 
 export default colors

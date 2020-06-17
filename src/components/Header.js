@@ -30,6 +30,8 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		paddingHorizontal: 20,
 		paddingVertical: 15,
+		borderBottomWidth: 0.5,
+		borderBottomColor: colors.darkGray,
 	},
 	ends: {
 		width: '15%',

@@ -22,13 +22,13 @@ const Home = ({ navigation }) => {
 					<Text style={styles.name}>Victoria Doe</Text>
 				</View>
 				<View style={styles.main}>
-					<TouchableNativeFeedback onPress={() => navigateToScreen('Workouts')}>
+					<TouchableNativeFeedback onPress={() => navigateToScreen('Yoga')}>
 						<View style={styles.button}>
 							<Image
 								style={styles.image}
 								source={require('../assets/images/exercise.png')}
 							/>
-							<Text style={styles.title}>Workouts</Text>
+							<Text style={styles.title}>Yoga</Text>
 						</View>
 					</TouchableNativeFeedback>
 
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
 		margin: 20,
 	},
 	button: {
-		backgroundColor: '#f7f7f7',
+		backgroundColor: colors.lightGray,
 		marginVertical: 15,
 		padding: 20,
 		borderRadius: 10,

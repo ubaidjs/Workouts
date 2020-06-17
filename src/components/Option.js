@@ -7,7 +7,7 @@ const Option = ({ iconName, text, onPress }) => {
 	return (
 		<TouchableWithoutFeedback onPress={onPress}>
 			<View style={styles.option}>
-				<Feather name={iconName} size={20} color={colors.darkGray} />
+				<Feather name={iconName} size={22} color="gray" />
 				<Text style={styles.optionText}>{text}</Text>
 			</View>
 		</TouchableWithoutFeedback>

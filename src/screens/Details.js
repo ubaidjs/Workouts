@@ -1,16 +1,18 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import global from '../constant/styles'
 import Header from '../components/Header'
+import global from '../constant/styles'
+import colors from '../constant/colors'
 
-const Workouts = () => {
+const Details = ({ route }) => {
+	const { title } = route.params
 	return (
 		<View style={global.container}>
-			<Header title="Workouts" />
+			<Header title={title} />
 		</View>
 	)
 }
 
-export default Workouts
+export default Details
 
 const styles = StyleSheet.create({})
