@@ -1,12 +1,19 @@
 import React from 'react'
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native'
+import {
+	StyleSheet,
+	Text,
+	View,
+	Image,
+	ScrollView,
+	TouchableNativeFeedback,
+} from 'react-native'
 import Feather from 'react-native-vector-icons/Feather'
 import global from '../constant/styles'
 import colors from '../constant/colors'
 import Header from '../components/Header'
 import { exercise } from '../constant/data'
 
-const List = () => {
+const List = ({ navigation }) => {
 	return (
 		<View style={global.container}>
 			<Header title="Exercise List" noBack={true} />
@@ -14,15 +21,23 @@ const List = () => {
 				<View style={styles.exerciseWrapper}>
 					{exercise.map(el => {
 						return (
-							<View style={styles.exercise} key={el.id}>
-								<Image style={styles.image} source={{ uri: el.image }} />
-								<Text style={styles.name}>{el.name}</Text>
-								<Feather
-									name="chevron-right"
-									size={20}
-									color={colors.linkBlue}
-								/>
-							</View>
+							<TouchableNativeFeedback
+								key={el.id}
+								onPress={() =>
+									navigation.navigate('Details', {
+										yoga: el,
+									})
+								}>
+								<View style={styles.exercise}>
+									<Image style={styles.image} source={{ uri: el.image }} />
+									<Text style={styles.name}>{el.name}</Text>
+									<Feather
+										name="chevron-right"
+										size={20}
+										color={colors.linkBlue}
+									/>
+								</View>
+							</TouchableNativeFeedback>
 						)
 					})}
 				</View>

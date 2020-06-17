@@ -26,7 +26,7 @@ const Category = ({ route, navigation }) => {
 								key={el.id}
 								onPress={() =>
 									navigation.navigate('Details', {
-										title: el.name,
+										yoga: el,
 									})
 								}>
 								<View style={styles.exercise}>
