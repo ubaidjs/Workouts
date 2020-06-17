@@ -4,14 +4,16 @@ import { useNavigation } from '@react-navigation/native'
 import Feather from 'react-native-vector-icons/Feather'
 import colors from '../constant/colors'
 
-const Header = ({ title }) => {
+const Header = ({ title, noBack }) => {
 	const navigation = useNavigation()
 	return (
 		<View style={styles.container}>
 			<View style={styles.ends}>
-				<TouchableOpacity onPress={() => navigation.goBack()}>
-					<Feather name="chevron-left" size={25} color={colors.lightBlack} />
-				</TouchableOpacity>
+				{noBack ? null : (
+					<TouchableOpacity onPress={() => navigation.goBack()}>
+						<Feather name="chevron-left" size={25} color={colors.lightBlack} />
+					</TouchableOpacity>
+				)}
 			</View>
 			<Text style={styles.title}>{title}</Text>
 			<View style={styles.ends} />

@@ -13,6 +13,7 @@ import Workouts from '../screens/Workouts'
 import Foods from '../screens/Foods'
 import Calculator from '../screens/Calculator'
 import TabNavigator from '../navigation/TabNavigator'
+import EditProfile from '../screens/EditProfile'
 
 const Stack = createStackNavigator()
 
@@ -69,6 +70,7 @@ const AppNavigator = () => {
 							<Stack.Screen name="Workouts" component={Workouts} />
 							<Stack.Screen name="Foods" component={Foods} />
 							<Stack.Screen name="Calculator" component={Calculator} />
+							<Stack.Screen name="Edit" component={EditProfile} />
 						</>
 					)}
 				</Stack.Navigator>
