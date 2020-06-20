@@ -1,13 +1,35 @@
-import React, { useContext } from 'react'
-import { StyleSheet, Text, View, TouchableWithoutFeedback } from 'react-native'
-import { AuthContext } from '../context/AuthContext'
+import React, { useState, useEffect, useContext, useCallback } from 'react'
+import {
+	StyleSheet,
+	Text,
+	View,
+	TouchableWithoutFeedback,
+	Image,
+} from 'react-native'
+import { useFocusEffect } from '@react-navigation/native'
 import AsyncStorage from '@react-native-community/async-storage'
+import { AuthContext } from '../context/AuthContext'
 import colors from '../constant/colors'
 import global from '../constant/styles'
 import Option from '../components/Option'
 
 const Profile = ({ navigation }) => {
 	const { signOut } = useContext(AuthContext)
+	// const [name, setName] = useState('')
+	const [userObj, setUserObj] = useState({})
+
+	useFocusEffect(
+		useCallback(() => {
+			fetchUserFromStorage()
+		}, []),
+	)
+
+	const fetchUserFromStorage = async () => {
+		let user = await AsyncStorage.getItem('USER')
+		user = JSON.parse(user)
+		// setName(user.name)
+		setUserObj(user)
+	}
 
 	const handleSignout = async () => {
 		await AsyncStorage.clear()
@@ -15,14 +37,18 @@ const Profile = ({ navigation }) => {
 	}
 
 	const navigateToEdit = () => {
-		navigation.navigate('Edit')
+		navigation.navigate('Edit', {
+			data: userObj,
+		})
 	}
 
 	return (
 		<View style={global.container}>
 			<View style={styles.photoWrapper}>
-				<View style={styles.photo} />
-				<Text style={styles.name}>Victoria Doe</Text>
+				{/* <View style={styles.photo}> */}
+				<Image style={styles.photo} source={{ uri: userObj.avatar }} />
+				{/* </View> */}
+				<Text style={styles.name}>{userObj.name}</Text>
 			</View>
 			<View style={styles.optionWrapper}>
 				<Option iconName="edit" text="Edit Profile" onPress={navigateToEdit} />

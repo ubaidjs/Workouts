@@ -4,6 +4,7 @@
 	"rules": {
 		"no-unused-vars": "off",
 		"semi": 0,
-		"react-native/no-inline-styles": "off"
+		"react-native/no-inline-styles": "off",
+		"react-hooks/exhaustive-deps": "off"
 	}
 }

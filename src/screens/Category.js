@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {
 	StyleSheet,
 	Text,
@@ -6,31 +6,67 @@ import {
 	ScrollView,
 	Image,
 	TouchableNativeFeedback,
+	ActivityIndicator,
 } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 import Feather from 'react-native-vector-icons/Feather'
 import Header from '../components/Header'
 import global from '../constant/styles'
 import colors from '../constant/colors'
-import { exercise } from '../constant/data'
+import url from '../constant/api'
 
 const Category = ({ route, navigation }) => {
-	const { category } = route.params
+	const { id, name } = route.params
+
+	const [data, setData] = useState([])
+	const [loading, setLoading] = useState(false)
+
+	useEffect(() => {
+		fetchCategoryList()
+	}, [])
+
+	const fetchCategoryList = async () => {
+		setLoading(true)
+		const token = await AsyncStorage.getItem('TOKEN')
+		const formData = new FormData()
+		formData.append('category_id', id)
+		try {
+			const response = await fetch(`${url}list`, {
+				method: 'POST',
+				body: formData,
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'multipart/form-data',
+					Authorization: token,
+				},
+			})
+			const json = await response.json()
+			setLoading(false)
+			json.data && setData(json.data)
+		} catch (error) {
+			setLoading(false)
+			console.log(error)
+		}
+	}
+
 	return (
 		<View style={global.container}>
-			<Header title={`Category ${category}`} />
+			<Header title={name} />
 			<ScrollView>
 				<View style={styles.exerciseWrapper}>
-					{exercise.map(el => {
+					{loading && <ActivityIndicator />}
+					{data.map(el => {
 						return (
 							<TouchableNativeFeedback
 								key={el.id}
 								onPress={() =>
 									navigation.navigate('Details', {
-										yoga: el,
+										id: el.id,
+										name: el.name,
 									})
 								}>
 								<View style={styles.exercise}>
-									<Image style={styles.image} source={{ uri: el.image }} />
+									{/* <Image style={styles.image} source={{ uri: el.image }} /> */}
 									<Text style={styles.name}>{el.name}</Text>
 									<Feather
 										name="chevron-right"
@@ -59,7 +95,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		borderRadius: 10,
-		padding: 15,
+		padding: 20,
 	},
 	image: {
 		height: 60,

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {
 	StyleSheet,
 	Text,
@@ -6,43 +6,78 @@ import {
 	Image,
 	TouchableOpacity,
 	ScrollView,
+	ActivityIndicator,
+	ToastAndroid,
+	Linking,
 } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Header from '../components/Header'
 import global from '../constant/styles'
 import colors from '../constant/colors'
+import url from '../constant/api'
 
 const Details = ({ route }) => {
-	const { yoga } = route.params
+	const { id, name } = route.params
+
+	const [data, setData] = useState([])
+	const [loading, setLoading] = useState(false)
+
+	useEffect(() => {
+		fetchDetails()
+	}, [])
+
+	const fetchDetails = async () => {
+		setLoading(true)
+		const token = await AsyncStorage.getItem('TOKEN')
+		const formData = new FormData()
+		formData.append('list_id', id)
+		try {
+			const response = await fetch(`${url}list-details`, {
+				method: 'POST',
+				body: formData,
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'multipart/form-data',
+					Authorization: token,
+				},
+			})
+			const json = await response.json()
+			setLoading(false)
+			json.data && setData(json.data)
+		} catch (error) {
+			setLoading(false)
+			console.log(error)
+		}
+	}
+
+	const handleVideoBtn = () => {
+		if (data.video === null) {
+			ToastAndroid.show('Video Not Available', ToastAndroid.SHORT)
+		} else {
+			Linking.openURL(data.video)
+		}
+	}
+
 	return (
 		<View style={global.container}>
-			<Header title={yoga.name} />
+			<Header title={name} />
 			<ScrollView>
 				<View style={styles.main}>
 					<View style={styles.imageWrapper}>
-						<Image style={styles.image} source={{ uri: yoga.image }} />
+						{/* <Image style={styles.image} source={{ uri: yoga.image }} /> */}
 					</View>
-					<TouchableOpacity>
+					<TouchableOpacity onPress={handleVideoBtn}>
 						<View style={styles.videoButton}>
 							<AntDesign name="playcircleo" size={15} color="white" />
 							<Text style={styles.videoText}>Video</Text>
 						</View>
 					</TouchableOpacity>
 					<View style={styles.info}>
-						<Text style={styles.heading}>Details</Text>
-						<Text style={styles.para}>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam,
-							corporis ex eos eum placeat expedita blanditiis amet nesciunt sed
-							quos natus minus culpa incidunt quidem accusamus dolores minima
-							optio mollitia.
-						</Text>
-						<Text style={styles.para}>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae
-							alias repellendus totam eos ipsam a facilis, minus quod mollitia
-							ipsum facere dolore maiores modi, eum maxime rerum doloribus.
-							Sequi, ratione!
-						</Text>
+						<Text style={styles.heading}>Description</Text>
+						<Text style={styles.para}>{data.description}</Text>
 					</View>
+					{loading && <ActivityIndicator />}
 				</View>
 			</ScrollView>
 		</View>

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import {
 	StyleSheet,
 	Text,
@@ -11,13 +11,47 @@ import { AuthContext } from '../context/AuthContext'
 import AsyncStorage from '@react-native-community/async-storage'
 import colors from '../constant/colors'
 import Button from '../components/Button'
+import url from '../constant/api'
 
 const Login = ({ navigation }) => {
 	const { signIn } = useContext(AuthContext)
+	const [loading, setLoading] = useState(false)
+	const [phone, setPhone] = useState('')
+	const [password, setPassword] = useState('')
+	const [errorMsg, setErrorMsg] = useState('')
 
 	const handleLogin = async () => {
-		await AsyncStorage.setItem('TOKEN', '123456')
-		signIn({ token: '123456' })
+		if (!phone || !password) {
+			setErrorMsg('Please fill all fields')
+			return
+		}
+		setLoading(true)
+		const formData = new FormData()
+		formData.append('phone', phone)
+		formData.append('password', password)
+		try {
+			const response = await fetch(`${url}login`, {
+				method: 'POST',
+				body: formData,
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'multipart/form-data',
+				},
+			})
+			const json = await response.json()
+			setLoading(false)
+			if (json.status) {
+				await AsyncStorage.setItem('USER', JSON.stringify(json.data))
+				await AsyncStorage.setItem('TOKEN', json.access_token)
+				signIn({ token: json.access_token })
+			} else {
+				setErrorMsg(json.message)
+			}
+		} catch (error) {
+			setLoading(false)
+			setErrorMsg(error)
+			console.log(error)
+		}
 	}
 
 	return (
@@ -36,6 +70,7 @@ const Login = ({ navigation }) => {
 							keyboardType="phone-pad"
 							autoCapitalize="none"
 							autoCompleteType="off"
+							onChangeText={val => setPhone(val)}
 						/>
 						<TextInput
 							placeholder="Password"
@@ -44,7 +79,9 @@ const Login = ({ navigation }) => {
 							autoCapitalize="none"
 							autoCorrect={false}
 							autoCompleteType="off"
+							onChangeText={val => setPassword(val)}
 						/>
+						<Text style={styles.errorMsg}>{errorMsg}</Text>
 					</View>
 				</View>
 				<View style={styles.line}>
@@ -53,7 +90,7 @@ const Login = ({ navigation }) => {
 						<Text style={{ color: colors.linkBlue }}>Sign Up</Text>
 					</TouchableOpacity>
 				</View>
-				<Button title="LOGIN" onPress={handleLogin} />
+				<Button loading={loading} title="LOGIN" onPress={handleLogin} />
 			</ScrollView>
 		</View>
 	)
@@ -90,7 +127,7 @@ const styles = StyleSheet.create({
 	},
 	inputWrapper: {
 		padding: 20,
-		marginBottom: 50,
+		// marginBottom: 50,
 	},
 	input: {
 		backgroundColor: '#f7f7f7',
@@ -101,5 +138,10 @@ const styles = StyleSheet.create({
 	line: {
 		flexDirection: 'row',
 		alignSelf: 'center',
+	},
+	errorMsg: {
+		color: 'red',
+		textAlign: 'center',
+		marginVertical: 10,
 	},
 })

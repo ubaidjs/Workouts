@@ -1,35 +1,68 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
 	StyleSheet,
 	Text,
 	View,
 	ScrollView,
 	TouchableNativeFeedback,
+	ActivityIndicator,
 } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 import Feather from 'react-native-vector-icons/Feather'
 import global from '../constant/styles'
 import Header from '../components/Header'
 import colors from '../constant/colors'
+import url from '../constant/api'
 
 const arr = [1, 2, 3, 4, 5, 6, 7]
 
 const Yoga = ({ navigation }) => {
+	const [data, setData] = useState([])
+	const [loading, setLoading] = useState(false)
+
+	useEffect(() => {
+		fetchCategory()
+	}, [])
+
+	const fetchCategory = async () => {
+		setLoading(true)
+		const token = await AsyncStorage.getItem('TOKEN')
+		try {
+			const response = await fetch(`${url}category`, {
+				method: 'GET',
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'multipart/form-data',
+					Authorization: token,
+				},
+			})
+			const json = await response.json()
+			setLoading(false)
+			json.data && setData(json.data)
+		} catch (error) {
+			setLoading(false)
+			console.log(error)
+		}
+	}
+
 	return (
 		<View style={global.container}>
 			<Header title="Yoga" />
 			<ScrollView>
 				<View style={styles.dayWrapper}>
-					{arr.map(el => {
+					{loading && <ActivityIndicator />}
+					{data.map(el => {
 						return (
 							<TouchableNativeFeedback
-								key={el}
+								key={el.id}
 								onPress={() => {
 									navigation.navigate('Category', {
-										category: el,
+										id: el.id,
+										name: el.category,
 									})
 								}}>
 								<View style={styles.day}>
-									<Text style={styles.text}>Category {el}</Text>
+									<Text style={styles.text}>{el.category}</Text>
 									<Feather
 										name="chevron-right"
 										size={20}

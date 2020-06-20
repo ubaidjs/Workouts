@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import {
 	StyleSheet,
 	Text,
@@ -7,19 +7,39 @@ import {
 	TouchableNativeFeedback,
 	ScrollView,
 } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
+import { useFocusEffect } from '@react-navigation/native'
 import colors from '../constant/colors'
 import global from '../constant/styles'
 
 const Home = ({ navigation }) => {
+	const [name, setName] = useState('')
 	const navigateToScreen = route => {
 		navigation.navigate(route)
 	}
+
+	useEffect(() => {
+		fetchUserFromStorage()
+	}, [])
+
+	useFocusEffect(
+		useCallback(() => {
+			fetchUserFromStorage()
+		}, []),
+	)
+
+	const fetchUserFromStorage = async () => {
+		let user = await AsyncStorage.getItem('USER')
+		user = JSON.parse(user)
+		setName(user.name)
+	}
+
 	return (
 		<View style={global.container}>
 			<ScrollView>
 				<View style={styles.userWrapper}>
 					<Text style={styles.hello}>Hello</Text>
-					<Text style={styles.name}>Victoria Doe</Text>
+					<Text style={styles.name}>{name}</Text>
 				</View>
 				<View style={styles.main}>
 					<TouchableNativeFeedback onPress={() => navigateToScreen('Yoga')}>
