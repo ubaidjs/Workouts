@@ -16,6 +16,7 @@ import TabNavigator from '../navigation/TabNavigator'
 import EditProfile from '../screens/EditProfile'
 import Category from '../screens/Category'
 import Details from '../screens/Details'
+import MyProfile from '../screens/MyProfile'
 
 const Stack = createStackNavigator()
 
@@ -75,6 +76,7 @@ const AppNavigator = () => {
 							<Stack.Screen name="Edit" component={EditProfile} />
 							<Stack.Screen name="Category" component={Category} />
 							<Stack.Screen name="Details" component={Details} />
+							<Stack.Screen name="MyProfile" component={MyProfile} />
 						</>
 					)}
 				</Stack.Navigator>

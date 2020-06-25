@@ -5,6 +5,7 @@ import {
 	View,
 	TouchableWithoutFeedback,
 	Image,
+	ScrollView,
 } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
 import AsyncStorage from '@react-native-community/async-storage'
@@ -42,21 +43,38 @@ const Profile = ({ navigation }) => {
 		})
 	}
 
+	const navigateToMyProfile = () => {
+		navigation.navigate('MyProfile', {
+			data: userObj,
+		})
+	}
+
 	return (
 		<View style={global.container}>
-			<View style={styles.photoWrapper}>
-				{/* <View style={styles.photo}> */}
-				<Image style={styles.photo} source={{ uri: userObj.avatar }} />
-				{/* </View> */}
-				<Text style={styles.name}>{userObj.name}</Text>
-			</View>
-			<View style={styles.optionWrapper}>
-				<Option iconName="edit" text="Edit Profile" onPress={navigateToEdit} />
-				<Option iconName="shield" text="Privacy Policy" />
-				<Option iconName="star" text="Rate App" />
-				<Option iconName="share-2" text="Share App" />
-				<Option iconName="log-out" text="Log Out" onPress={handleSignout} />
-			</View>
+			<ScrollView>
+				<View style={styles.photoWrapper}>
+					{/* <View style={styles.photo}> */}
+					<Image style={styles.photo} source={{ uri: userObj.avatar }} />
+					{/* </View> */}
+					<Text style={styles.name}>{userObj.name}</Text>
+				</View>
+				<View style={styles.optionWrapper}>
+					<Option
+						iconName="user"
+						text="My Profile"
+						onPress={navigateToMyProfile}
+					/>
+					<Option
+						iconName="edit"
+						text="Edit Profile"
+						onPress={navigateToEdit}
+					/>
+					<Option iconName="shield" text="Privacy Policy" />
+					<Option iconName="star" text="Rate App" />
+					<Option iconName="share-2" text="Share App" />
+					<Option iconName="log-out" text="Log Out" onPress={handleSignout} />
+				</View>
+			</ScrollView>
 		</View>
 	)
 }

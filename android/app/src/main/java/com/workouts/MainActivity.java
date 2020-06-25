@@ -1,4 +1,4 @@
-package com.workouts;
+package com.fitg.yoga;
 
 import com.facebook.react.ReactActivity;
 
@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "Workouts";
+    return "FitG";
   }
 }
